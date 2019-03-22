@@ -5,22 +5,25 @@ import { withStyles, CardContent, Card, TextField, Button } from '@material-ui/c
 
 import AlertView, { showAlert } from '../alert/AlertView.jsx';
 
+import Logo from '../../assets/img/logo.png';
+
 const styles = themes => ({
     card: {
         maxWidth: 350,
         width: '100%',
         padding: '0 24px 24px 24px',
         marginTop: '56px',
-        height: 300
+        height: 420
     },
     cardContent: {
         paddingTop: 24
     },
     header: {
         textAlign: 'center',
-        '& h4': {
-            marginTop: 0
-        }
+        paddingTop: 16
+    },
+    content: {
+        paddingTop: 24
     },
     textField: {
         width: '100%'
@@ -28,6 +31,9 @@ const styles = themes => ({
     loginButtonWrapper: {
         textAlign: 'right',
         paddingTop: 24
+    },
+    logo: {
+        width: 150
     }
 });
 
@@ -73,7 +79,7 @@ class LoginView extends React.Component {
                 <AlertView />
                 <CardContent className={classes.cardContent}>
                     <div className={classes.header}>
-                        <h2>BBC Scraper</h2>
+                        <img src={Logo} className={classes.logo}/>
                     </div>
                     <div className={classes.content}>
                         <div>
