@@ -102,8 +102,9 @@ class ResultView extends React.Component {
         this.renderSaveLogForm = this.renderSaveLogForm.bind(this);
         this.resetState = this.resetState.bind(this);
         this.addToLog = this.addToLog.bind(this);
+        this.saveToGS = this.saveToGS.bind(this);
+        this.openGS = this.openGS.bind(this);
 
-        this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.buttonClicked = this.buttonClicked.bind(this);
@@ -128,8 +129,7 @@ class ResultView extends React.Component {
 
         this.setState({
             open: false
-        })
-        console.log("True", searchName, searchLevel);
+        });
     }
 
     openAddToLogForm() {
@@ -138,14 +138,30 @@ class ResultView extends React.Component {
         })
     }
 
+    saveToGS() {
+        const s_id = sessionStorage.getItem('s_id');
+
+        if (s_id !== undefined && s_id !== null && s_id !== '') {
+            console.log("saveToGS", s_id);
+        }
+    }
+
+    openGS() {
+        const s_id = sessionStorage.getItem('s_id');
+
+        if (s_id !== undefined && s_id !== null && s_id !== '') {
+            console.log("openGS", s_id);
+        }
+    }
+
     buttonClicked(event, type) {
         event.preventDefault();
 
         switch(type) {
             case "reset": this.resetState(); break;
             case "addToLog": this.openAddToLogForm(); break;
-            case "saveToGS": this.openAddToLogForm(); break;
-            case "openGS": this.openAddToLogForm(); break;
+            case "saveToGS": this.saveToGS(); break;
+            case "openGS": this.openGS(); break;
             default: break;
         }
     }
@@ -155,12 +171,8 @@ class ResultView extends React.Component {
             [name]: event.target.value
         });
     }
-
-    handleClickOpen() {
-        this.setState({ open: true });
-    };
     
-    handleClose() {
+    handleClose() { 
         this.setState({ open: false });
     };
 
@@ -173,7 +185,7 @@ class ResultView extends React.Component {
                 open={open}
                 onClose={this.handleClose}
                 aria-labelledby="form-dialog-title"
-                >
+                > 
                 <DialogTitle id="form-dialog-title">Save search terms</DialogTitle>
                 <DialogContent>
                     <DialogContentText>

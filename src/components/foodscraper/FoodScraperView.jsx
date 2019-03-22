@@ -91,6 +91,10 @@ class FoodScraperView extends React.Component {
         this.setState({
             [name]: event.target.value
         });
+
+        if (name === 'sheetId') {            
+            sessionStorage.setItem('s_id', event.target.value);
+        }
     }
 
     retrieveWebsiteURL() {
