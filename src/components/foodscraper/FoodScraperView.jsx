@@ -13,15 +13,13 @@ import FoodScraperRoutes from './routes.jsx';
 //Tab, Enter and semi-colon
 
 const styles = theme => ({
-    container: {
-        position: 'relative'
-    },    
     card: {
         maxWidth: 1200,
         width: '100%',
-        padding: '0 24px 24px 24px',
-        marginTop: '8px',
-        height: 'calc(100% - 40px)'
+        padding: '0 24px',
+        marginTop: 10,
+        height: '100%',
+        marginBottom: 10
     },
     cardContent: {
         paddingTop: 0

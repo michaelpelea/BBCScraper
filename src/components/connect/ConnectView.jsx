@@ -5,10 +5,10 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 import AlertView, { showAlert } from '../alert/AlertView.jsx';
+import CustomButton from '../buttons/CustomButton.jsx';
 
 import { cancelAPI, connectWebsite } from '../axios/Api.jsx';
 
@@ -17,7 +17,7 @@ const styles = theme => ({
         minWidth: 475,
         maxHeight: 220,
         padding: '24px',
-        marginTop: '50px'
+        marginTop: 60,
     },
     textField: {
         width: '100%',
@@ -28,7 +28,8 @@ const styles = theme => ({
         marginTop: '16px'
     },
     header: {
-        marginTop: 0
+        marginTop: 0,
+        color: '#434343'
     },
     note: {
         fontSize: '12px'
@@ -120,9 +121,9 @@ class ConnectView extends React.Component {
                     </section>
                         
                     <div className={classes.buttonWrapper}>
-                        <Button variant="contained" color="primary" className={classes.button} onClick={this.handleSubmitURL}>
-                            Connect
-                        </Button>
+                        <CustomButton variant="contained" onClick={this.handleSubmitURL}
+                            background={'green'}
+                            >Connect</CustomButton>
                     </div>
                 </CardContent>
             </Card>

@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles, CardContent, Card, TextField, Button } from '@material-ui/core';
+import { withStyles, CardContent, Card, TextField } from '@material-ui/core';
 
 import AlertView, { showAlert } from '../alert/AlertView.jsx';
+import CustomButton from '../buttons/CustomButton.jsx';
 
 import Logo from '../../assets/img/logo.png';
 
@@ -12,7 +13,7 @@ const styles = themes => ({
         maxWidth: 350,
         width: '100%',
         padding: '0 24px 24px 24px',
-        marginTop: '56px',
+        marginTop: 60,
         height: 420
     },
     cardContent: {
@@ -66,8 +67,6 @@ class LoginView extends React.Component {
         } else {
             showAlert('Please enter valid credentials', 'danger');
         }
-
-        console.log('credentials', username, password);
     }
 
     render() {
@@ -79,7 +78,7 @@ class LoginView extends React.Component {
                 <AlertView />
                 <CardContent className={classes.cardContent}>
                     <div className={classes.header}>
-                        <img src={Logo} className={classes.logo}/>
+                        <img src={Logo} className={classes.logo} alt={'Company Logo'}/>
                     </div>
                     <div className={classes.content}>
                         <div>
@@ -110,10 +109,8 @@ class LoginView extends React.Component {
                         </div>
 
                         <div className={classes.loginButtonWrapper}>
-                            <Button variant="contained" color="primary" 
-                                    onClick={this.login}>
-                                Login
-                            </Button>
+                            <CustomButton variant="contained" background={'green'}
+                                onClick={this.login}>Login</CustomButton>
                         </div>
                     </div>
                 </CardContent>

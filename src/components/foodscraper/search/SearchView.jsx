@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 import withStyles from "@material-ui/core/styles/withStyles";
-import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import ResultsView from '../results/ResultView.jsx';
+import CustomButton from '../../buttons/CustomButton.jsx';
 
 import TagsInput from 'react-tagsinput'; 
-import '../../../App.css';
 
 const addKeys = [9, 13, 186]; 
 
@@ -87,8 +87,7 @@ class SearchView extends React.Component {
     clearState() {
         this.setState({
             searchContent: [],
-            searchContentInput: '',
-            showResult: false
+            searchContentInput: ''
         });
     }
 
@@ -131,30 +130,35 @@ class SearchView extends React.Component {
 
         return (
             <div className={classes.root}>
-                <TagsInput
-                    className={classes.textField}
-                    value={ searchContent }
-                    onChange={ this.handleTagsInput }
-                    inputValue={ searchContentInput }
-                    onChangeInput={ this.handleChangeTagsInput }
-                    addKeys = { addKeys }
-                    inputProps = {{
-                        placeholder: 'Add a search term'
-                    }}
-                    />
+                <div className="tooltip">
+                    <TagsInput
+                        className={classes.textField}
+                        value={ searchContent }
+                        onChange={ this.handleTagsInput }
+                        inputValue={ searchContentInput }
+                        onChangeInput={ this.handleChangeTagsInput }
+                        addKeys = { addKeys }
+                        inputProps = {{
+                            placeholder: 'Add a search term'
+                        }}
+                        />
+                    <span className="tooltiptext">Press enter or semi-colon ( ; ) before clicking on search button</span>
+                </div>
 
                 <div className={classes.alignRight}>
-                    <Button variant="contained" color="primary" 
-                            className={classes.button}
-                            onClick={event => this.buttonClicked(event, 'search')}>
+                    <CustomButton variant="contained" 
+                        onClick={event => this.buttonClicked(event, 'search')}
+                        background={'green'}
+                        className={classes.button}>
                         Search
-                    </Button>
+                    </CustomButton>
 
-                    <Button variant="contained" color="primary" 
-                            className={classes.button + ' ' + classes.clearButton}
-                            onClick={event => this.buttonClicked(event, 'clear')}>
+                    <CustomButton variant="contained" 
+                        className={classes.button + ' ' + classes.clearButton}
+                        onClick={event => this.buttonClicked(event, 'clear')}
+                        background={null}>
                         Clear
-                    </Button>
+                    </CustomButton>
                 </div>
                 
                 {

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-import Table from 'material-table';
-import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -13,7 +12,15 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core';
+
+import CustomButton from '../../buttons/CustomButton.jsx';
+import { getNumericCellEditor } from '../../../customClass.jsx';
+
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-material.css';
+
+let openMoreDetailsModal = null;
 
 const styles = themes => ({    
     results: {
@@ -23,12 +30,7 @@ const styles = themes => ({
         paddingTop: 8, 
         textAlign: 'center',
         "& button": {
-            marginRight: 16,
-            backgroundColor: '#5245e0',
-            color: '#ffffff',
-            '&:hover': {
-                backgroundColor: '#362ab2'
-            }
+            marginRight: 16
         }
     },
     formControl: {
@@ -44,24 +46,64 @@ const styles = themes => ({
         '& button': {
             width: 120
         }
+    },
+    dialogHeader: {
+        '& h2': {
+            color: '#434343'
+        }
+    },
+    agWrapper: {
+        '& .ag-body-viewport .ag-row:hover': {
+            cursor: 'pointer'
+        }
     }
-})
+});
 
-const columns = [
+const columnDefs = [
     {
-        title: 'Search Term', field: 'searchterm'
+        headerName: 'Search Term', field: 'searchterm', sortable: true, filter: true,
+        cellRendererFramework: function(params) {
+            return (
+                <div className="ag-ellipsis" onClick={event => openMoreDetailsModal(params.data)}>{params.data.searchterm}</div>
+            )
+        }
     },
     {
-        title: 'Title', field: 'title'
+        headerName: 'Title', field: 'title', sortable: true, filter: true,
+        cellRendererFramework: function(params) {
+            return (
+                <div className="ag-ellipsis" onClick={event => openMoreDetailsModal(params.data)}>{params.data.title}</div>
+            )
+        }
     },
     {
-        title: 'Description', field: 'description'
+        headerName: 'Description', field: 'description', sortable: true, filter: true,
+        cellRendererFramework: function(params) {
+            return (
+                <div className="ag-ellipsis" onClick={event => openMoreDetailsModal(params.data)}>{params.data.description}</div>
+            )
+        }
     },
     {
-        title: 'Ingredients', field: 'ingredients'
+        headerName: 'Ingredients', field: 'ingredients', sortable: true, filter: true,
+        cellRendererFramework: function(params) {
+            return (
+                <div className="ag-ellipsis" onClick={event => openMoreDetailsModal(params.data)}>{params.data.ingredients}</div>
+            )
+        }
     },
     {
-        title: 'Accuracy', field: 'accuracy'
+        headerName: 'Accuracy', field: 'accuracy', editable: true, sortable: true, filter: true,
+        cellEditor: "numericCellEditor", 
+        cellRendererFramework: function(params) {
+            if (params.data.accuracy !== '') {
+                return (
+                    <div className="ag-edited">{params.data.accuracy}</div>
+                )
+            } else {
+                return ( <div>{params.data.accuracy}</div> )
+            }            
+        }
     }
 ];
 
@@ -71,21 +113,21 @@ const data = [
         title: 'Sloppy Joe pizza breads',
         description: 'Take a jar of tomato sauce, beef mince, mozzarella cheese and a baguette and you have this speedy supper - serve with basil',
         ingredients: '500g pack lean beef mince 350g jar tomato and chilli pasta sauce 1 baguette 2 x 125g balls mozzarella, drained and torn small handful basil, torn',
-        accuracy: 2
+        accuracy: ''
     },
     {
         searchterm: 'American Pizza',
         title: 'Spicy salami s\'mores',
         description: 'Ever tried a savoury version of a classic American marshmallow s\'more? If not, this pizza-inspired stack with taleggio cheese, salami and olives is a good place to start...',
         ingredients: '',
-        accuracy: 3
+        accuracy: ''
     },
     {
         searchterm: 'American Pizza',
         title: 'Margherita s\'mores',
         description: 'We gave American-style s’more marshmallow sandwiches a savoury makeover. This version with pizza flavours is ideal for dipping into tomato soup',
         ingredients: '16 Ritz crackers 8 slices mozzarella (½ a ball) (vegetarian brand, if required) 8 sundried tomatoes 8 fresh basil leaves',
-        accuracy: 3
+        accuracy: ''
     }
 ];
 
@@ -96,18 +138,36 @@ class ResultView extends React.Component {
         this.state = {
             searchName: '',
             searchLevel: '',
-            open: false            
+            open: false,
+            openMoreDetails: false,
+
+            // more details state
+            title: '',
+            description: '',
+            ingredients: '',
+
+            //ag table properties
+            components: { numericCellEditor: getNumericCellEditor() }
         }
 
+        this.renderMoreDetails = this.renderMoreDetails.bind(this);
         this.renderSaveLogForm = this.renderSaveLogForm.bind(this);
         this.resetState = this.resetState.bind(this);
         this.addToLog = this.addToLog.bind(this);
         this.saveToGS = this.saveToGS.bind(this);
         this.openGS = this.openGS.bind(this);
+        this.openMoreDetailsModal = this.openMoreDetailsModal.bind(this);
 
+        this.handleCloseMoreDetails = this.handleCloseMoreDetails.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.buttonClicked = this.buttonClicked.bind(this);
+
+        this.onGridReady = this.onGridReady.bind(this);
+    }
+
+    componentDidMount() {
+        openMoreDetailsModal = this.openMoreDetailsModal;
     }
 
     resetState() {
@@ -120,8 +180,23 @@ class ResultView extends React.Component {
         this.setState({
             searchName: '',
             searchLevel: '',
-            open: false
+            open: false,
+            openMoreDetails: false,
+
+            // more details state
+            title: '',
+            description: '',
+            ingredients: ''
         })
+    }
+
+    openMoreDetailsModal(params) {
+        const { title, description, ingredients } = params;
+
+        this.setState({
+            openMoreDetails: true,
+            title, description, ingredients
+        });
     }
     
     addToLog() {
@@ -176,6 +251,60 @@ class ResultView extends React.Component {
         this.setState({ open: false });
     };
 
+    handleCloseMoreDetails() { 
+        this.setState({ openMoreDetails: false });
+    };
+
+    /**
+     * 
+     * @param {object} params - returned from ag-grid
+     * Callback for grid after complete initialization 
+     */
+    onGridReady(params) {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+    
+        params.api.sizeColumnsToFit();
+        window.addEventListener("resize", function() {
+          setTimeout(function() {
+            params.api.sizeColumnsToFit();
+          });
+        });
+    
+        params.api.sizeColumnsToFit();
+    }
+
+    /**
+     * container for more details alert modal
+     */
+    renderMoreDetails() {
+        const { classes } = this.props;
+        const { title, description, ingredients, openMoreDetails } = this.state;
+
+        return(
+            <Dialog
+                open={openMoreDetails}
+                onClose={this.handleCloseMoreDetails}
+                aria-labelledby="form-dialog-title"
+                > 
+                <DialogTitle id="form-dialog-title" className={classes.dialogHeader}>{ title }</DialogTitle>
+                <DialogContent>
+                    <div>                            
+                        <h4> Ingredients </h4>
+                        <p> { ingredients } </p>
+                    </div>
+                    <div>                            
+                        <h4> Description </h4>
+                        <p> { description } </p>
+                    </div>                
+                </DialogContent>
+            </Dialog>
+        );
+    }
+
+    /**
+     * Container for save alert modal form
+     */
     renderSaveLogForm() {
         const { classes } = this.props;
         const { open, searchName, searchLevel } = this.state;
@@ -186,7 +315,7 @@ class ResultView extends React.Component {
                 onClose={this.handleClose}
                 aria-labelledby="form-dialog-title"
                 > 
-                <DialogTitle id="form-dialog-title">Save search terms</DialogTitle>
+                <DialogTitle id="form-dialog-title" className={classes.dialogHeader}>Save search terms</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         Enter the name and level of the search to be saved on the log file
@@ -226,12 +355,8 @@ class ResultView extends React.Component {
                     
                 </DialogContent>
                 <DialogActions className={classes.dialogActions}>
-                    <Button variant="contained" onClick={this.addToLog} color="primary">
-                        Save
-                    </Button>
-                    <Button variant="contained" onClick={this.handleClose} color="inherit">
-                        Cancel
-                    </Button>
+                    <CustomButton background={'green'} variant="contained" onClick={this.addToLog}>Save</CustomButton>
+                    <CustomButton background={null} variant="contained" onClick={this.handleClose}>Cancel</CustomButton>
                 </DialogActions>
             </Dialog>
         )
@@ -239,11 +364,13 @@ class ResultView extends React.Component {
 
     render() {
         const { classes } = this.props;
+        const { components } = this.state;
 
         return (
             <div className={classes.results}>
                 { this.renderSaveLogForm() }
-                <Table
+                { this.renderMoreDetails() }
+                {/* <Table
                     columns={columns}
                     data={data}
                     title={'Results'}
@@ -258,12 +385,27 @@ class ResultView extends React.Component {
                         body: {
                             emptyDataSourceMessage: 'No record(s) to display'
                         }
-                    }}></Table>
-                <div className={classes.buttonWrapper}>                                
-                    <Button variant="outlined" onClick={event => this.buttonClicked(event, 'addToLog')}>Add to Log</Button>
-                    <Button variant="outlined" onClick={event => this.buttonClicked(event, 'saveToGS')}>Save To Google Sheet</Button>
-                    <Button variant="outlined" onClick={event => this.buttonClicked(event, 'openGS')}>Open Google Sheet</Button>
-                    <Button variant="outlined" onClick={event => this.buttonClicked(event, 'reset')}>Reset</Button>
+                    }}></Table> */}
+                <div    
+                    className={"ag-theme-material " + classes.agWrapper}
+                    style={{ width: '100%', height: '320px', marginTop: '10px' }} 
+                >
+                    <AgGridReact
+                        components={components}
+                        columnDefs={columnDefs}
+                        rowData={data}
+                        onGridReady={this.onGridReady}
+                        stopEditingWhenGridLosesFocus={true}
+                        floatingFilter={true}
+                        >
+                    </AgGridReact>
+                </div>
+                
+                <div className={classes.buttonWrapper}>      
+                    <CustomButton background={'blue'} onClick={event => this.buttonClicked(event, 'addToLog')}>Add to Log</CustomButton>
+                    <CustomButton background={'blue'} onClick={event => this.buttonClicked(event, 'saveToGS')}>Save To Google Sheet</CustomButton>
+                    <CustomButton background={'blue'} onClick={event => this.buttonClicked(event, 'openGS')}>Open Google Sheet</CustomButton>
+                    <CustomButton background={'blue'} onClick={event => this.buttonClicked(event, 'reset')}>Reset</CustomButton>
                 </div>
             </div>
         );

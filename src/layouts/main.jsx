@@ -7,23 +7,31 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import routes from "../routes.jsx";
 
 const styles = theme => ({
-    container: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        display: 'flex',
-        // backgroundColor: '#eeeeee',
-        justifyContent: 'center'
+    containerWrapper: {
+        position: 'relative',
+        zIndex: 250,
+        height: '100%'
     },
-    headerColor: {
+    container: {
+        position: 'relative',
+        width: '100%',
+        backgroundColor: 'transparent',
+        display: 'flex',
+        justifyContent: 'center',
+        overflow: 'auto',
+        paddingBottom: '5px'
+    },
+    background: {
         position: 'absolute',
+        zIndex: 0,
         top: 0,
-        left: 0,
-        right: 0,
-        height: 180,
-        backgroundColor: '#eeeeee'
+        height: '180px',
+        width: '100%',
+        '& > div:first-child': {
+            height: 180,
+            backgroundColor: 'rgb(250, 119, 69)',
+            backgroundImage: 'linear-gradient(to right, rgb(250, 119, 69), rgb(243, 196, 66))'
+        }
     }
 });
 
@@ -61,13 +69,15 @@ class Home extends React.Component {
     render() {
         const { classes } = this.props;
 
-        return (
-            <div>
-                <div className={classes.headerColor}></div>
-                <div className={classes.container}>                    
+        return (     
+            <div className={classes.containerWrapper}>
+                <div className={classes.background}>
+                    <div className={classes.header}></div>
+                </div>
+                <div className={classes.container}>
                     { this.switchRoutes() }
                 </div>
-            </div>            
+            </div>        
         );
     }
 }
