@@ -1,40 +1,13 @@
 import React from 'react';
-
 import PropTypes from "prop-types";
 
-import withStyles from "@material-ui/core/styles/withStyles";
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import TextField from '@material-ui/core/TextField';
+import { withStyles, Card, CardContent, TextField } from '@material-ui/core';
 
 import AlertView, { showAlert } from '../alert/AlertView.jsx';
 import CustomButton from '../buttons/CustomButton.jsx';
-
 import { cancelAPI, connectWebsite } from '../axios/Api.jsx';
 
-const styles = theme => ({
-    card: {
-        minWidth: 475,
-        maxHeight: 220,
-        padding: '24px',
-        marginTop: 60,
-    },
-    textField: {
-        width: '100%',
-        marginTop: 0
-    },
-    buttonWrapper: {
-        textAlign: 'right',
-        marginTop: '16px'
-    },
-    header: {
-        marginTop: 0,
-        color: '#434343'
-    },
-    note: {
-        fontSize: '12px'
-    }
-});
+import styles from '../../assets/jsxStyles/connect.jsx';
 
 class ConnectView extends React.Component {
     constructor(props) {

@@ -5,38 +5,8 @@ import { withStyles, CardContent, Card, TextField } from '@material-ui/core';
 
 import AlertView, { showAlert } from '../alert/AlertView.jsx';
 import CustomButton from '../buttons/CustomButton.jsx';
-
 import Logo from '../../assets/img/logo.png';
-
-const styles = themes => ({
-    card: {
-        maxWidth: 350,
-        width: '100%',
-        padding: '0 24px 24px 24px',
-        marginTop: 60,
-        height: 420
-    },
-    cardContent: {
-        paddingTop: 24
-    },
-    header: {
-        textAlign: 'center',
-        paddingTop: 16
-    },
-    content: {
-        paddingTop: 24
-    },
-    textField: {
-        width: '100%'
-    },
-    loginButtonWrapper: {
-        textAlign: 'right',
-        paddingTop: 24
-    },
-    logo: {
-        width: 150
-    }
-});
+import styles from '../../assets/jsxStyles/login.jsx';
 
 class LoginView extends React.Component {
     constructor(props) {

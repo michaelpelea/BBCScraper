@@ -2,13 +2,15 @@ import React from 'react';
 import PropTypes from "prop-types";
 
 import withStyles from "@material-ui/core/styles/withStyles";
-import Tooltip from '@material-ui/core/Tooltip';
 
 import ResultsView from '../results/ResultView.jsx';
 import CustomButton from '../../buttons/CustomButton.jsx';
 
 import TagsInput from 'react-tagsinput'; 
 
+import styles from '../../../assets/jsxStyles/search.jsx';
+
+//tab, enter and semi-colon
 const addKeys = [9, 13, 186]; 
 
 const data = [
@@ -17,52 +19,23 @@ const data = [
         title: 'Sloppy Joe pizza breads',
         description: 'Take a jar of tomato sauce, beef mince, mozzarella cheese and a baguette and you have this speedy supper - serve with basil',
         ingredients: '500g pack lean beef mince 350g jar tomato and chilli pasta sauce 1 baguette 2 x 125g balls mozzarella, drained and torn small handful basil, torn',
-        accuracy: 2
+        accuracy: ''
     },
     {
         searchterm: 'American Pizza',
         title: 'Spicy salami s\'mores',
         description: 'Ever tried a savoury version of a classic American marshmallow s\'more? If not, this pizza-inspired stack with taleggio cheese, salami and olives is a good place to start...',
         ingredients: '',
-        accuracy: 3
+        accuracy: ''
     },
     {
         searchterm: 'American Pizza',
         title: 'Margherita s\'mores',
         description: 'We gave American-style s’more marshmallow sandwiches a savoury makeover. This version with pizza flavours is ideal for dipping into tomato soup',
         ingredients: '16 Ritz crackers 8 slices mozzarella (½ a ball) (vegetarian brand, if required) 8 sundried tomatoes 8 fresh basil leaves',
-        accuracy: 3
+        accuracy: ''
     }
-]
-
-const styles = theme => ({
-    root: {
-        marginTop: '8px'
-    },
-    searchButtonWrapper: {
-        display: 'inline-flex',
-        width: '50%',
-        marginTop: '8px',
-        paddingLeft: '8px'
-    },
-    textField: {
-        width: '100%',
-        minHeight: '40px',
-        height: 'auto',
-        borderBottom: '1px solid rgba(0, 0, 0, 0.42)'
-    },
-    clearButton: {
-        marginLeft: '26px'
-    },
-    alignRight: {
-        paddingTop: '8px',
-        textAlign: 'right'
-    },
-    button: {
-        width: '120px',
-        marginLeft: '16px'
-    }
-});
+];
 
 class SearchView extends React.Component {
     constructor(props) {

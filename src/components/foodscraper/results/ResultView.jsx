@@ -1,70 +1,25 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-import { withStyles } from '@material-ui/core';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import TextField from '@material-ui/core/TextField';
+import { withStyles, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl,
+        Select, MenuItem, InputLabel, TextField } from '@material-ui/core';
+import { AgGridReact } from 'ag-grid-react';
 
 import CustomButton from '../../buttons/CustomButton.jsx';
 import { getNumericCellEditor } from '../../../customClass.jsx';
 
-import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
+import styles from '../../../assets/jsxStyles/result.jsx';
 
 let openMoreDetailsModal = null;
-
-const styles = themes => ({    
-    results: {
-        marginTop: 16
-    },
-    buttonWrapper: {
-        paddingTop: 8, 
-        textAlign: 'center',
-        "& button": {
-            marginRight: 16
-        }
-    },
-    formControl: {
-        marginTop:'15.5px',
-        marginLeft: '20px',
-        minWidth: 120,
-    },
-    searchName: {
-        width: 'calc(100% - 140px)'
-    },
-    dialogActions: {
-        paddingRight: 8,
-        '& button': {
-            width: 120
-        }
-    },
-    dialogHeader: {
-        '& h2': {
-            color: '#434343'
-        }
-    },
-    agWrapper: {
-        '& .ag-body-viewport .ag-row:hover': {
-            cursor: 'pointer'
-        }
-    }
-});
 
 const columnDefs = [
     {
         headerName: 'Search Term', field: 'searchterm', sortable: true, filter: true,
         cellRendererFramework: function(params) {
             return (
-                <div className="ag-ellipsis" onClick={event => openMoreDetailsModal(params.data)}>{params.data.searchterm}</div>
+                <div className="ag-ellipsis" onClick={event => openMoreDetailsModal && openMoreDetailsModal(params.data)}>{params.data.searchterm}</div>
             )
         }
     },
@@ -72,7 +27,7 @@ const columnDefs = [
         headerName: 'Title', field: 'title', sortable: true, filter: true,
         cellRendererFramework: function(params) {
             return (
-                <div className="ag-ellipsis" onClick={event => openMoreDetailsModal(params.data)}>{params.data.title}</div>
+                <div className="ag-ellipsis" onClick={event => openMoreDetailsModal && openMoreDetailsModal(params.data)}>{params.data.title}</div>
             )
         }
     },
@@ -80,7 +35,7 @@ const columnDefs = [
         headerName: 'Description', field: 'description', sortable: true, filter: true,
         cellRendererFramework: function(params) {
             return (
-                <div className="ag-ellipsis" onClick={event => openMoreDetailsModal(params.data)}>{params.data.description}</div>
+                <div className="ag-ellipsis" onClick={event => openMoreDetailsModal && openMoreDetailsModal(params.data)}>{params.data.description}</div>
             )
         }
     },
@@ -88,7 +43,7 @@ const columnDefs = [
         headerName: 'Ingredients', field: 'ingredients', sortable: true, filter: true,
         cellRendererFramework: function(params) {
             return (
-                <div className="ag-ellipsis" onClick={event => openMoreDetailsModal(params.data)}>{params.data.ingredients}</div>
+                <div className="ag-ellipsis" onClick={event => openMoreDetailsModal && openMoreDetailsModal(params.data)}>{params.data.ingredients}</div>
             )
         }
     },
@@ -104,30 +59,6 @@ const columnDefs = [
                 return ( <div>{params.data.accuracy}</div> )
             }            
         }
-    }
-];
-
-const data = [
-    {
-        searchterm: 'American Pizza',
-        title: 'Sloppy Joe pizza breads',
-        description: 'Take a jar of tomato sauce, beef mince, mozzarella cheese and a baguette and you have this speedy supper - serve with basil',
-        ingredients: '500g pack lean beef mince 350g jar tomato and chilli pasta sauce 1 baguette 2 x 125g balls mozzarella, drained and torn small handful basil, torn',
-        accuracy: ''
-    },
-    {
-        searchterm: 'American Pizza',
-        title: 'Spicy salami s\'mores',
-        description: 'Ever tried a savoury version of a classic American marshmallow s\'more? If not, this pizza-inspired stack with taleggio cheese, salami and olives is a good place to start...',
-        ingredients: '',
-        accuracy: ''
-    },
-    {
-        searchterm: 'American Pizza',
-        title: 'Margherita s\'mores',
-        description: 'We gave American-style s’more marshmallow sandwiches a savoury makeover. This version with pizza flavours is ideal for dipping into tomato soup',
-        ingredients: '16 Ritz crackers 8 slices mozzarella (½ a ball) (vegetarian brand, if required) 8 sundried tomatoes 8 fresh basil leaves',
-        accuracy: ''
     }
 ];
 
@@ -167,6 +98,8 @@ class ResultView extends React.Component {
     }
 
     componentDidMount() {
+        //sets the function within the component to the variable outside the scope
+        //so the variable can be defined within the column headers cell rendered framework
         openMoreDetailsModal = this.openMoreDetailsModal;
     }
 
@@ -289,7 +222,7 @@ class ResultView extends React.Component {
                 > 
                 <DialogTitle id="form-dialog-title" className={classes.dialogHeader}>{ title }</DialogTitle>
                 <DialogContent>
-                    <div>                            
+                    <div>
                         <h4> Ingredients </h4>
                         <p> { ingredients } </p>
                     </div>
@@ -363,29 +296,13 @@ class ResultView extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, results } = this.props;
         const { components } = this.state;
 
         return (
             <div className={classes.results}>
                 { this.renderSaveLogForm() }
                 { this.renderMoreDetails() }
-                {/* <Table
-                    columns={columns}
-                    data={data}
-                    title={'Results'}
-                    options={{
-                        columnsButton: true,
-                        exportButton: true,
-                        paging: true,
-                        maxBodyHeight: 320,
-                        showEmptyDataSourceMessage: true
-                    }}
-                    localization={{
-                        body: {
-                            emptyDataSourceMessage: 'No record(s) to display'
-                        }
-                    }}></Table> */}
                 <div    
                     className={"ag-theme-material " + classes.agWrapper}
                     style={{ width: '100%', height: '320px', marginTop: '10px' }} 
@@ -393,7 +310,7 @@ class ResultView extends React.Component {
                     <AgGridReact
                         components={components}
                         columnDefs={columnDefs}
-                        rowData={data}
+                        rowData={results}
                         onGridReady={this.onGridReady}
                         stopEditingWhenGridLosesFocus={true}
                         floatingFilter={true}
