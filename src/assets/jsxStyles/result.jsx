@@ -20,7 +20,8 @@ const styles = themes => ({
     dialogActions: {
         paddingRight: 8,
         '& button': {
-            width: 120
+            width: 120,
+            marginLeft: 8
         }
     },
     dialogHeader: {

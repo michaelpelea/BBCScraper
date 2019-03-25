@@ -50,9 +50,9 @@ class SearchView extends React.Component {
 
         this.clearState = this.clearState.bind(this);
         this.search = this.search.bind(this);
+        this.setShowResult = this.setShowResult.bind(this);
 
         this.handleChange = this.handleChange.bind(this);
-        this.buttonClicked = this.buttonClicked.bind(this);
         this.handleTagsInput = this.handleTagsInput.bind(this);
         this.handleChangeTagsInput = this.handleChangeTagsInput.bind(this);
     }
@@ -64,20 +64,17 @@ class SearchView extends React.Component {
         });
     }
 
+    // Accessible for results view
+    setShowResult(value) {
+        this.setState({
+            showResult: value
+        });
+    }
+
     search() {
         this.setState({
             showResult: true
         });
-    }
-
-    buttonClicked(event, type) {
-        event.preventDefault();
-
-        switch(type) {
-            case "clear": this.clearState(); break;
-            case "search": this.search(); break;
-            default: break;
-        }
     }
 
     handleChange(event, name) {
@@ -120,7 +117,7 @@ class SearchView extends React.Component {
 
                 <div className={classes.alignRight}>
                     <CustomButton variant="contained" 
-                        onClick={event => this.buttonClicked(event, 'search')}
+                        onClick={this.search}
                         background={'green'}
                         className={classes.button}>
                         Search
@@ -128,7 +125,7 @@ class SearchView extends React.Component {
 
                     <CustomButton variant="contained" 
                         className={classes.button + ' ' + classes.clearButton}
-                        onClick={event => this.buttonClicked(event, 'clear')}
+                        onClick={this.clearState}
                         background={null}>
                         Clear
                     </CustomButton>
@@ -139,6 +136,7 @@ class SearchView extends React.Component {
                         <ResultsView 
                             {...other}
                             clearState={this.clearState}
+                            setShowResult={this.setShowResult}
                             results={data}
                             />
                     : ''  
