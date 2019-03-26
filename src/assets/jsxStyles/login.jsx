@@ -2,9 +2,9 @@ const styles = themes => ({
     card: {
         maxWidth: 350,
         width: '100%',
-        padding: '0 24px 24px 24px',
+        padding: '0 24px',
         marginTop: 60,
-        height: 420
+        height: 'auto'
     },
     cardContent: {
         paddingTop: 24

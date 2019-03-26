@@ -72,9 +72,13 @@ class SearchView extends React.Component {
     }
 
     search() {
-        this.setState({
-            showResult: true
-        });
+        const { searchContent } = this.state;
+
+        if (Array.isArray(searchContent) === true && searchContent.length > 0) {
+            this.setState({
+                showResult: true
+            });
+        }
     }
 
     handleChange(event, name) {

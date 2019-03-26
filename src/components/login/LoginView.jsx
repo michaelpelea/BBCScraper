@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { withStyles, CardContent, Card, TextField } from '@material-ui/core';
 
+import CustomPassword from '../password/CustomPassword.jsx';
 import AlertView, { showAlert } from '../alert/AlertView.jsx';
 import CustomButton from '../buttons/CustomButton.jsx';
 import Logo from '../../assets/img/logo.png';
@@ -76,6 +77,7 @@ class LoginView extends React.Component {
                                 margin="normal"
                                 variant="outlined"
                                 />
+                            <CustomPassword password={password} /> 
                         </div>
 
                         <div className={classes.loginButtonWrapper}>
