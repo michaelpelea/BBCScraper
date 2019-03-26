@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles, CardContent, Card, TextField } from '@material-ui/core';
+import { withStyles, Button, CardContent, Card, TextField } from '@material-ui/core';
 
-import CustomPassword from '../password/CustomPassword.jsx';
 import AlertView, { showAlert } from '../alert/AlertView.jsx';
 import CustomButton from '../buttons/CustomButton.jsx';
 import Logo from '../../assets/img/logo.png';
@@ -41,9 +40,9 @@ class LoginView extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, navigateToRegister } = this.props;
         const { username, password } = this.state;
-
+        console.log("dsada", this.props);
         return (
             <Card className={classes.card}>
                 <AlertView />
@@ -59,9 +58,9 @@ class LoginView extends React.Component {
                                 className={classes.textField}
                                 value={username}
                                 onChange={event => this.handleChange(event, 'username')}
-                                autoComplete="current-username"
                                 margin="normal"
                                 variant="outlined"
+                                autoComplete="new-username"
                                 />
                         </div>
 
@@ -73,14 +72,16 @@ class LoginView extends React.Component {
                                 value={password}
                                 onChange={event => this.handleChange(event, 'password')}
                                 type="password"
-                                autoComplete="current-password"
                                 margin="normal"
                                 variant="outlined"
+                                autoComplete="new-password"
                                 />
-                            <CustomPassword password={password} /> 
                         </div>
 
                         <div className={classes.loginButtonWrapper}>
+                            <Button onClick={navigateToRegister} className={classes.link}>
+                                Register
+                            </Button>
                             <CustomButton variant="contained" background={'green'}
                                 onClick={this.login}>Login</CustomButton>
                         </div>

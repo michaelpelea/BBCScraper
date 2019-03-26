@@ -17,7 +17,8 @@ const styles = themes => ({
         paddingTop: 24
     },
     textField: {
-        width: '100%'
+        width: '100%',
+        marginTop: 0
     },
     loginButtonWrapper: {
         textAlign: 'right',
@@ -25,6 +26,10 @@ const styles = themes => ({
     },
     logo: {
         width: 150
+    },
+    link: {
+        float: 'left',
+        marginTop: 4
     }
 });
 

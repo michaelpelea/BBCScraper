@@ -160,3 +160,11 @@ body p {
 .strength-Strong::-webkit-progress-value {
   background-color: #70C1B3;
 }
+
+/* 
+ * To remove scrollbar on react card flip, set static height
+ */
+.react-card-front,
+.react-card-back {
+  height: 530px;
+}
