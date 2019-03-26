@@ -1,41 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles, CardContent, Card, TextField, Button } from '@material-ui/core';
+import { withStyles, Button, CardContent, Card, TextField } from '@material-ui/core';
 
 import AlertView, { showAlert } from '../alert/AlertView.jsx';
-
+import CustomButton from '../buttons/CustomButton.jsx';
 import Logo from '../../assets/img/logo.png';
-
-const styles = themes => ({
-    card: {
-        maxWidth: 350,
-        width: '100%',
-        padding: '0 24px 24px 24px',
-        marginTop: '56px',
-        height: 420
-    },
-    cardContent: {
-        paddingTop: 24
-    },
-    header: {
-        textAlign: 'center',
-        paddingTop: 16
-    },
-    content: {
-        paddingTop: 24
-    },
-    textField: {
-        width: '100%'
-    },
-    loginButtonWrapper: {
-        textAlign: 'right',
-        paddingTop: 24
-    },
-    logo: {
-        width: 150
-    }
-});
+import styles from '../../assets/jsxStyles/login.jsx';
 
 class LoginView extends React.Component {
     constructor(props) {
@@ -66,20 +37,18 @@ class LoginView extends React.Component {
         } else {
             showAlert('Please enter valid credentials', 'danger');
         }
-
-        console.log('credentials', username, password);
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, navigateToRegister } = this.props;
         const { username, password } = this.state;
-
+        console.log("dsada", this.props);
         return (
             <Card className={classes.card}>
                 <AlertView />
                 <CardContent className={classes.cardContent}>
                     <div className={classes.header}>
-                        <img src={Logo} className={classes.logo}/>
+                        <img src={Logo} className={classes.logo} alt={'Company Logo'}/>
                     </div>
                     <div className={classes.content}>
                         <div>
@@ -89,9 +58,9 @@ class LoginView extends React.Component {
                                 className={classes.textField}
                                 value={username}
                                 onChange={event => this.handleChange(event, 'username')}
-                                autoComplete="current-username"
                                 margin="normal"
                                 variant="outlined"
+                                autoComplete="new-username"
                                 />
                         </div>
 
@@ -103,17 +72,18 @@ class LoginView extends React.Component {
                                 value={password}
                                 onChange={event => this.handleChange(event, 'password')}
                                 type="password"
-                                autoComplete="current-password"
                                 margin="normal"
                                 variant="outlined"
+                                autoComplete="new-password"
                                 />
                         </div>
 
                         <div className={classes.loginButtonWrapper}>
-                            <Button variant="contained" color="primary" 
-                                    onClick={this.login}>
-                                Login
+                            <Button onClick={navigateToRegister} className={classes.link}>
+                                Register
                             </Button>
+                            <CustomButton variant="contained" background={'green'}
+                                onClick={this.login}>Login</CustomButton>
                         </div>
                     </div>
                 </CardContent>

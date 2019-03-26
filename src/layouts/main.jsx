@@ -5,27 +5,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import routes from "../routes.jsx";
-
-const styles = theme => ({
-    container: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        display: 'flex',
-        // backgroundColor: '#eeeeee',
-        justifyContent: 'center'
-    },
-    headerColor: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: 180,
-        backgroundColor: '#eeeeee'
-    }
-});
+import styles from "../assets/jsxStyles/mainLayout.jsx";
 
 class Home extends React.Component {
     constructor(props) {
@@ -61,13 +41,15 @@ class Home extends React.Component {
     render() {
         const { classes } = this.props;
 
-        return (
-            <div>
-                <div className={classes.headerColor}></div>
-                <div className={classes.container}>                    
+        return (     
+            <div className={classes.containerWrapper}>
+                <div className={classes.background}>
+                    <div className={classes.header}></div>
+                </div>
+                <div className={classes.container}>
                     { this.switchRoutes() }
                 </div>
-            </div>            
+            </div>        
         );
     }
 }

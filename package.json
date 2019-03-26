@@ -5,15 +5,21 @@
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
+    "ag-grid-community": "^20.2.0",
+    "ag-grid-enterprise": "^20.2.0",
+    "ag-grid-react": "^20.2.0",
     "axios": "^0.18.0",
+    "classnames": "^2.2.6",
     "lodash": "^4.17.11",
     "material-table": "^1.26.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
+    "react-card-flip": "^0.5.0",
     "react-dom": "^16.8.4",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
-    "react-tagsinput": "^3.19.0"
+    "react-tagsinput": "^3.19.0",
+    "zxcvbn": "^4.4.2"
   },
   "scripts": {
     "start": "react-scripts start",

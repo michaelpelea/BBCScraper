@@ -1,71 +1,11 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-
 import PropTypes from "prop-types";
 
-import withStyles from "@material-ui/core/styles/withStyles";
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import TextField from '@material-ui/core/TextField';
+import { withStyles, Card, CardContent, TextField } from '@material-ui/core';
 
 import FoodScraperRoutes from './routes.jsx';
-
-//Tab, Enter and semi-colon
-
-const styles = theme => ({
-    container: {
-        position: 'relative'
-    },    
-    card: {
-        maxWidth: 1200,
-        width: '100%',
-        padding: '0 24px 24px 24px',
-        marginTop: '8px',
-        height: 'calc(100% - 40px)'
-    },
-    cardContent: {
-        paddingTop: 0
-    },  
-    buttonWrapper: {
-        paddingTop: '16px'
-    },
-    openGoogleButton: {
-        width: '32%',
-        marginLeft: '16px'
-    },
-    leftButtonHalfWidth: {
-        width: '32%',
-        marginRight: '16px',
-        backgroundColor: '#fb8c00',
-        color: '#ffffff'
-    },
-    rightButtonHalfWidth: {
-        width: '32%'
-    },
-    header: {
-        '& button': {
-            width: '15%',
-            height: '36px',
-            marginTop: '24px'
-        },
-        '& > div': {
-            display: 'inline-flex',
-            width: '50%',
-            '& b': {
-                marginRight: '8px'
-            }
-        }
-    },
-    sheetId: {
-        width: '100%'
-    },
-    websiteUrl: {
-        width: 'calc(100% - 24px)'
-    },
-    content: {
-        paddingTop: '8px'
-    }
-});
+import styles from '../../assets/jsxStyles/foodscraper.jsx';
 
 class FoodScraperView extends React.Component {
     constructor(props) {
@@ -73,8 +13,6 @@ class FoodScraperView extends React.Component {
 
         this.state = {
             connectUrl: '',
-            // searchName: '',
-            // searchLevel: '',
             sheetId: ''
         }
         
@@ -163,26 +101,6 @@ class FoodScraperView extends React.Component {
                         <div className={classes.content}>
                             { this.switchRoutes() }
                         </div>
-
-                        {/* <div className={classes.buttonWrapper}>
-                            <div className={classes.secondRow}>
-                                <Button variant="contained" 
-                                        className={classes.leftButtonHalfWidth}>
-                                    Save to log
-                                </Button>
-
-                                <Button variant="contained" color="secondary" 
-                                        className={classes.rightButtonHalfWidth}>
-                                    Save to Google Sheet
-                                </Button>
-
-                                
-                                <Button variant="contained" color="secondary" 
-                                        className={classes.openGoogleButton}>
-                                    Open Google Sheet
-                                </Button>
-                            </div>                            
-                        </div> */}
                     </form>
                 </CardContent>
             </Card>

@@ -1,6 +1,6 @@
 import Connect from './components/connect/ConnectView.jsx';
 import FoodScraper from './components/foodscraper/FoodScraperView.jsx';
-import Login from './components/login/LoginView.jsx';
+import MainLoginView from './components/login/Main.jsx';
 
 const routes = [
     {
@@ -13,7 +13,7 @@ const routes = [
     },
     {
         path: "/login",
-        component: Login
+        component: MainLoginView
     },
     {
         redirect: true,

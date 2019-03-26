@@ -1,39 +1,13 @@
 import React from 'react';
-
 import PropTypes from "prop-types";
 
-import withStyles from "@material-ui/core/styles/withStyles";
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import { withStyles, Card, CardContent, TextField } from '@material-ui/core';
 
 import AlertView, { showAlert } from '../alert/AlertView.jsx';
-
+import CustomButton from '../buttons/CustomButton.jsx';
 import { cancelAPI, connectWebsite } from '../axios/Api.jsx';
 
-const styles = theme => ({
-    card: {
-        minWidth: 475,
-        maxHeight: 220,
-        padding: '24px',
-        marginTop: '50px'
-    },
-    textField: {
-        width: '100%',
-        marginTop: 0
-    },
-    buttonWrapper: {
-        textAlign: 'right',
-        marginTop: '16px'
-    },
-    header: {
-        marginTop: 0
-    },
-    note: {
-        fontSize: '12px'
-    }
-});
+import styles from '../../assets/jsxStyles/connect.jsx';
 
 class ConnectView extends React.Component {
     constructor(props) {
@@ -120,9 +94,9 @@ class ConnectView extends React.Component {
                     </section>
                         
                     <div className={classes.buttonWrapper}>
-                        <Button variant="contained" color="primary" className={classes.button} onClick={this.handleSubmitURL}>
-                            Connect
-                        </Button>
+                        <CustomButton variant="contained" onClick={this.handleSubmitURL}
+                            background={'green'}
+                            >Connect</CustomButton>
                     </div>
                 </CardContent>
             </Card>
